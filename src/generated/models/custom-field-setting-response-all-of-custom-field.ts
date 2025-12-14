@@ -1,0 +1,328 @@
+import { CustomFieldCompactEnumValue } from './custom-field-compact-enum-value';
+import { AsanaNamedResource } from './asana-named-resource';
+import { EnumOption } from './enum-option';
+import { UserCompact } from './user-compact';
+import { CustomFieldCompactDateValue } from './custom-field-compact-date-value';
+
+
+export interface CustomFieldSettingResponseAllOfCustomField { 
+  /**
+   * Globally unique identifier of the resource, as a string.
+   */
+  readonly gid?: string;
+  /**
+   * The base type of this resource.
+   */
+  readonly resource_type?: string;
+  /**
+   * The name of the custom field.
+   */
+  name?: string;
+  /**
+   * *Deprecated: new integrations should prefer the resource_subtype field.* The type of the custom field. Must be one of the given values. 
+   */
+  readonly type?: CustomFieldSettingResponseAllOfCustomField.TypeEnum;
+  /**
+   * *Conditional*. Only relevant for custom fields of type `enum` or `multi_enum`. This array specifies the possible values which an `enum` custom field can adopt. To modify the enum options, refer to [working with enum options](/reference/createenumoptionforcustomfield).
+   */
+  enum_options?: Array<EnumOption>;
+  /**
+   * *Conditional*. This field applies only to [custom field values](/docs/custom-fields-guide#/accessing-custom-field-values-on-tasks-or-projects) and is not available for [custom field definitions](/docs/custom-fields-guide#/accessing-custom-field-definitions). Determines if the custom field is enabled or not. For more details, see the [Custom Fields documentation](/docs/custom-fields-guide#/enabled-and-disabled-values).
+   */
+  readonly enabled?: boolean;
+  /**
+   * This field tells the type of the custom field.
+   */
+  readonly representation_type?: CustomFieldSettingResponseAllOfCustomField.RepresentationTypeEnum;
+  /**
+   * This field is the unique custom ID string for the custom field.
+   */
+  id_prefix?: string | null;
+  /**
+   * *Conditional*. Only relevant for custom fields of type `reference`. This array of strings reflects the allowed types of objects that can be written to a `reference` custom field value.
+   */
+  input_restrictions?: Array<string>;
+  /**
+   * *Conditional*. This flag describes whether a custom field is a formula custom field.
+   */
+  is_formula_field?: boolean;
+  date_value?: CustomFieldCompactDateValue | null;
+  enum_value?: CustomFieldCompactEnumValue;
+  /**
+   * *Conditional*. Only relevant for custom fields of type `multi_enum`. This object is the chosen values of a `multi_enum` custom field.
+   */
+  multi_enum_values?: Array<EnumOption>;
+  /**
+   * *Conditional*. This number is the value of a `number` custom field.
+   */
+  number_value?: number | null;
+  /**
+   * *Conditional*. This string is the value of a `text` custom field.
+   */
+  text_value?: string | null;
+  /**
+   * A string representation for the value of the custom field. Integrations that don\'t require the underlying type should use this field to read values. Using this field will future-proof an app against new custom field types.
+   */
+  readonly display_value?: string | null;
+  /**
+   * [Opt In](/docs/inputoutput-options). The description of the custom field.
+   */
+  description?: string;
+  /**
+   * Only relevant for custom fields of type `Number`. This field dictates the number of places after the decimal to round to, i.e. 0 is integer values, 1 rounds to the nearest tenth, and so on. Must be between 0 and 6, inclusive. For percentage format, this may be unintuitive, as a value of 0.25 has a precision of 0, while a value of 0.251 has a precision of 1. This is due to 0.25 being displayed as 25%. The identifier format will always have a precision of 0.
+   */
+  precision?: number;
+  /**
+   * The format of this custom field.
+   */
+  format?: CustomFieldSettingResponseAllOfCustomField.FormatEnum;
+  /**
+   * ISO 4217 currency code to format this custom field. This will be null if the `format` is not `currency`.
+   */
+  currency_code?: string | null;
+  /**
+   * This is the string that appears next to the custom field value. This will be null if the `format` is not `custom`.
+   */
+  custom_label?: string | null;
+  /**
+   * Only relevant for custom fields with `custom` format. This depicts where to place the custom label. This will be null if the `format` is not `custom`.
+   */
+  custom_label_position?: CustomFieldSettingResponseAllOfCustomField.CustomLabelPositionEnum | null;
+  /**
+   * This flag describes whether this custom field is available to every container in the workspace. Before project-specific custom fields, this field was always true.
+   */
+  readonly is_global_to_workspace?: boolean;
+  /**
+   * *Conditional*. This flag describes whether a follower of a task with this field should receive inbox notifications from changes to this field.
+   */
+  has_notifications_enabled?: boolean;
+  /**
+   * *Conditional*. A unique identifier to associate this field with the template source of truth.
+   */
+  readonly asana_created_field?: CustomFieldSettingResponseAllOfCustomField.AsanaCreatedFieldEnum | null;
+  /**
+   * *Conditional*. This flag describes whether a custom field is read only.
+   */
+  is_value_read_only?: boolean;
+  created_by?: UserCompact | null;
+  /**
+   * *Conditional*. Only relevant for custom fields of type `people`. This array of [compact user](/reference/users) objects reflects the values of a `people` custom field.
+   */
+  people_value?: Array<UserCompact>;
+  /**
+   * *Conditional*. Only relevant for custom fields of type `reference`. This array of objects reflects the values of a `reference` custom field.
+   */
+  reference_value?: Array<AsanaNamedResource>;
+  /**
+   * The privacy setting of the custom field. *Note: Administrators in your organization may restrict the values of `privacy_setting`.*
+   */
+  privacy_setting?: CustomFieldSettingResponseAllOfCustomField.PrivacySettingEnum;
+  /**
+   * The default access level when inviting new members to the custom field. This isn\'t applied when the `privacy_setting` is `private`, or the user is a guest. For local fields in a project or portfolio, the user must additionally have permission to modify the container itself.
+   */
+  default_access_level?: CustomFieldSettingResponseAllOfCustomField.DefaultAccessLevelEnum;
+  /**
+   * The type of the custom field. Must be one of the given values. 
+   */
+  readonly resource_subtype?: CustomFieldSettingResponseAllOfCustomField.ResourceSubtypeEnum;
+}
+export namespace CustomFieldSettingResponseAllOfCustomField {
+  export const TypeEnum = {
+    Text: 'text',
+    Enum: 'enum',
+    MultiEnum: 'multi_enum',
+    Number: 'number',
+    Date: 'date',
+    People: 'people'
+  } as const;
+  export type TypeEnum = typeof TypeEnum[keyof typeof TypeEnum];
+  export const RepresentationTypeEnum = {
+    Text: 'text',
+    Enum: 'enum',
+    MultiEnum: 'multi_enum',
+    Number: 'number',
+    Date: 'date',
+    People: 'people',
+    Formula: 'formula',
+    CustomId: 'custom_id',
+    Reference: 'reference'
+  } as const;
+  export type RepresentationTypeEnum = typeof RepresentationTypeEnum[keyof typeof RepresentationTypeEnum];
+  export const FormatEnum = {
+    Currency: 'currency',
+    Identifier: 'identifier',
+    Percentage: 'percentage',
+    Custom: 'custom',
+    Duration: 'duration',
+    None: 'none'
+  } as const;
+  export type FormatEnum = typeof FormatEnum[keyof typeof FormatEnum];
+  export const CustomLabelPositionEnum = {
+    Prefix: 'prefix',
+    Suffix: 'suffix'
+  } as const;
+  export type CustomLabelPositionEnum = typeof CustomLabelPositionEnum[keyof typeof CustomLabelPositionEnum];
+  export const AsanaCreatedFieldEnum = {
+    AVRequirements: 'a_v_requirements',
+    AccountName: 'account_name',
+    Actionable: 'actionable',
+    AlignShippingLink: 'align_shipping_link',
+    AlignStatus: 'align_status',
+    AllottedTime: 'allotted_time',
+    Appointment: 'appointment',
+    ApprovalStage: 'approval_stage',
+    Approved: 'approved',
+    ArticleSeries: 'article_series',
+    BoardCommittee: 'board_committee',
+    Browser: 'browser',
+    CampaignAudience: 'campaign_audience',
+    CampaignProjectStatus: 'campaign_project_status',
+    CampaignRegions: 'campaign_regions',
+    ChannelPrimary: 'channel_primary',
+    ClientTopicType: 'client_topic_type',
+    CompleteBy: 'complete_by',
+    Contact: 'contact',
+    ContactEmailAddress: 'contact_email_address',
+    ContentChannels: 'content_channels',
+    ContentChannelsNeeded: 'content_channels_needed',
+    ContentStage: 'content_stage',
+    ContentType: 'content_type',
+    Contract: 'contract',
+    ContractStatus: 'contract_status',
+    Cost: 'cost',
+    CreationStage: 'creation_stage',
+    CreativeChannel: 'creative_channel',
+    CreativeNeeded: 'creative_needed',
+    CreativeNeeds: 'creative_needs',
+    DataSensitivity: 'data_sensitivity',
+    DealSize: 'deal_size',
+    DeliveryAppt: 'delivery_appt',
+    DeliveryApptDate: 'delivery_appt_date',
+    Department: 'department',
+    DepartmentResponsible: 'department_responsible',
+    DesignRequestNeeded: 'design_request_needed',
+    DesignRequestType: 'design_request_type',
+    DiscussionCategory: 'discussion_category',
+    DoThisTask: 'do_this_task',
+    EditorialContentStatus: 'editorial_content_status',
+    EditorialContentTag: 'editorial_content_tag',
+    EditorialContentType: 'editorial_content_type',
+    Effort: 'effort',
+    EffortLevel: 'effort_level',
+    EstCompletionDate: 'est_completion_date',
+    EstimatedTime: 'estimated_time',
+    EstimatedValue: 'estimated_value',
+    ExpectedCost: 'expected_cost',
+    ExternalStepsNeeded: 'external_steps_needed',
+    FavoriteIdea: 'favorite_idea',
+    FeedbackType: 'feedback_type',
+    Financial: 'financial',
+    FundingAmount: 'funding_amount',
+    GrantApplicationProcess: 'grant_application_process',
+    HiringCandidateStatus: 'hiring_candidate_status',
+    IdeaStatus: 'idea_status',
+    IdsLink: 'ids_link',
+    IdsPatientLink: 'ids_patient_link',
+    ImplementationStage: 'implementation_stage',
+    Insurance: 'insurance',
+    InterviewArea: 'interview_area',
+    InterviewQuestionScore: 'interview_question_score',
+    IteroScanLink: 'itero_scan_link',
+    JobSAppliedTo: 'job_s_applied_to',
+    Lab: 'lab',
+    LaunchStatus: 'launch_status',
+    LeadStatus: 'lead_status',
+    LocalizationLanguage: 'localization_language',
+    LocalizationMarketTeam: 'localization_market_team',
+    LocalizationStatus: 'localization_status',
+    MeetingMinutes: 'meeting_minutes',
+    MeetingNeeded: 'meeting_needed',
+    Minutes: 'minutes',
+    Mrr: 'mrr',
+    MustLocalize: 'must_localize',
+    NameOfFoundation: 'name_of_foundation',
+    NeedToFollowUp: 'need_to_follow_up',
+    NextAppointment: 'next_appointment',
+    NextStepsSales: 'next_steps_sales',
+    NumPeople: 'num_people',
+    NumberOfUserReports: 'number_of_user_reports',
+    OfficeLocation: 'office_location',
+    OnboardingActivity: 'onboarding_activity',
+    Owner: 'owner',
+    ParticipantsNeeded: 'participants_needed',
+    PatientDateOfBirth: 'patient_date_of_birth',
+    PatientEmail: 'patient_email',
+    PatientPhone: 'patient_phone',
+    PatientStatus: 'patient_status',
+    PhoneNumber: 'phone_number',
+    PlanningCategory: 'planning_category',
+    PointOfContact: 'point_of_contact',
+    Position: 'position',
+    PostFormat: 'post_format',
+    Prescription: 'prescription',
+    Priority: 'priority',
+    PriorityLevel: 'priority_level',
+    Product: 'product',
+    ProductStage: 'product_stage',
+    Progress: 'progress',
+    ProjectSize: 'project_size',
+    ProjectStatus: 'project_status',
+    ProposedBudget: 'proposed_budget',
+    PublishStatus: 'publish_status',
+    ReasonForScan: 'reason_for_scan',
+    Referral: 'referral',
+    RequestType: 'request_type',
+    ResearchStatus: 'research_status',
+    ResponsibleDepartment: 'responsible_department',
+    ResponsibleTeam: 'responsible_team',
+    RiskAssessmentStatus: 'risk_assessment_status',
+    RoomName: 'room_name',
+    SalesCounterpart: 'sales_counterpart',
+    Sentiment: 'sentiment',
+    ShippingLink: 'shipping_link',
+    SocialChannels: 'social_channels',
+    Stage: 'stage',
+    Status: 'status',
+    StatusDesign: 'status_design',
+    StatusOfInitiative: 'status_of_initiative',
+    SystemSetup: 'system_setup',
+    TaskProgress: 'task_progress',
+    Team: 'team',
+    TeamMarketing: 'team_marketing',
+    TeamResponsible: 'team_responsible',
+    TimeItTakesToCompleteTasks: 'time_it_takes_to_complete_tasks',
+    Timeframe: 'timeframe',
+    TreatmentType: 'treatment_type',
+    TypeWorkRequestsIt: 'type_work_requests_it',
+    UseAgency: 'use_agency',
+    UserName: 'user_name',
+    VendorCategory: 'vendor_category',
+    VendorType: 'vendor_type',
+    WordCount: 'word_count'
+  } as const;
+  export type AsanaCreatedFieldEnum = typeof AsanaCreatedFieldEnum[keyof typeof AsanaCreatedFieldEnum];
+  export const PrivacySettingEnum = {
+    PublicWithGuests: 'public_with_guests',
+    Public: 'public',
+    Private: 'private'
+  } as const;
+  export type PrivacySettingEnum = typeof PrivacySettingEnum[keyof typeof PrivacySettingEnum];
+  export const DefaultAccessLevelEnum = {
+    Admin: 'admin',
+    Editor: 'editor',
+    User: 'user'
+  } as const;
+  export type DefaultAccessLevelEnum = typeof DefaultAccessLevelEnum[keyof typeof DefaultAccessLevelEnum];
+  export const ResourceSubtypeEnum = {
+    Text: 'text',
+    Enum: 'enum',
+    MultiEnum: 'multi_enum',
+    Number: 'number',
+    Date: 'date',
+    People: 'people',
+    Reference: 'reference'
+  } as const;
+  export type ResourceSubtypeEnum = typeof ResourceSubtypeEnum[keyof typeof ResourceSubtypeEnum];
+}
+
+

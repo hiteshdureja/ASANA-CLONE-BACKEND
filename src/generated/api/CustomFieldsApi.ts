@@ -1,0 +1,32 @@
+import { Injectable } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { ApproveAccessRequest200Response, CreateCustomField201Response, CreateCustomFieldRequest, CreateEnumOptionForCustomField201Response, CreateEnumOptionForCustomFieldRequest, GetCustomFieldsForWorkspace200Response, InsertEnumOptionForCustomFieldRequest, UpdateCustomFieldRequest, UpdateEnumOptionRequest,  } from '../models';
+
+
+@Injectable()
+export abstract class CustomFieldsApi {
+
+  abstract createCustomField(createCustomFieldRequest: CreateCustomFieldRequest, optPretty: boolean, optFields: Array<'asana_created_field' | 'created_by' | 'created_by.name' | 'currency_code' | 'custom_label' | 'custom_label_position' | 'date_value' | 'date_value.date' | 'date_value.date_time' | 'default_access_level' | 'description' | 'display_value' | 'enabled' | 'enum_options' | 'enum_options.color' | 'enum_options.enabled' | 'enum_options.name' | 'enum_value' | 'enum_value.color' | 'enum_value.enabled' | 'enum_value.name' | 'format' | 'has_notifications_enabled' | 'id_prefix' | 'input_restrictions' | 'is_formula_field' | 'is_global_to_workspace' | 'is_value_read_only' | 'multi_enum_values' | 'multi_enum_values.color' | 'multi_enum_values.enabled' | 'multi_enum_values.name' | 'name' | 'number_value' | 'people_value' | 'people_value.name' | 'precision' | 'privacy_setting' | 'reference_value' | 'reference_value.name' | 'representation_type' | 'resource_subtype' | 'text_value' | 'type'>,  request: Request): CreateCustomField201Response | Promise<CreateCustomField201Response> | Observable<CreateCustomField201Response>;
+
+
+  abstract createEnumOptionForCustomField(customFieldGid: string, optPretty: boolean, optFields: Array<'color' | 'enabled' | 'name'>, createEnumOptionForCustomFieldRequest: CreateEnumOptionForCustomFieldRequest,  request: Request): CreateEnumOptionForCustomField201Response | Promise<CreateEnumOptionForCustomField201Response> | Observable<CreateEnumOptionForCustomField201Response>;
+
+
+  abstract deleteCustomField(customFieldGid: string, optPretty: boolean,  request: Request): ApproveAccessRequest200Response | Promise<ApproveAccessRequest200Response> | Observable<ApproveAccessRequest200Response>;
+
+
+  abstract getCustomField(customFieldGid: string, optPretty: boolean, optFields: Array<'asana_created_field' | 'created_by' | 'created_by.name' | 'currency_code' | 'custom_label' | 'custom_label_position' | 'date_value' | 'date_value.date' | 'date_value.date_time' | 'default_access_level' | 'description' | 'display_value' | 'enabled' | 'enum_options' | 'enum_options.color' | 'enum_options.enabled' | 'enum_options.name' | 'enum_value' | 'enum_value.color' | 'enum_value.enabled' | 'enum_value.name' | 'format' | 'has_notifications_enabled' | 'id_prefix' | 'input_restrictions' | 'is_formula_field' | 'is_global_to_workspace' | 'is_value_read_only' | 'multi_enum_values' | 'multi_enum_values.color' | 'multi_enum_values.enabled' | 'multi_enum_values.name' | 'name' | 'number_value' | 'people_value' | 'people_value.name' | 'precision' | 'privacy_setting' | 'reference_value' | 'reference_value.name' | 'representation_type' | 'resource_subtype' | 'text_value' | 'type'>,  request: Request): CreateCustomField201Response | Promise<CreateCustomField201Response> | Observable<CreateCustomField201Response>;
+
+
+  abstract getCustomFieldsForWorkspace(workspaceGid: string, optPretty: boolean, limit: number, offset: string, optFields: Array<'asana_created_field' | 'created_by' | 'created_by.name' | 'currency_code' | 'custom_label' | 'custom_label_position' | 'date_value' | 'date_value.date' | 'date_value.date_time' | 'default_access_level' | 'description' | 'display_value' | 'enabled' | 'enum_options' | 'enum_options.color' | 'enum_options.enabled' | 'enum_options.name' | 'enum_value' | 'enum_value.color' | 'enum_value.enabled' | 'enum_value.name' | 'format' | 'has_notifications_enabled' | 'id_prefix' | 'input_restrictions' | 'is_formula_field' | 'is_global_to_workspace' | 'is_value_read_only' | 'multi_enum_values' | 'multi_enum_values.color' | 'multi_enum_values.enabled' | 'multi_enum_values.name' | 'name' | 'number_value' | 'offset' | 'path' | 'people_value' | 'people_value.name' | 'precision' | 'privacy_setting' | 'reference_value' | 'reference_value.name' | 'representation_type' | 'resource_subtype' | 'text_value' | 'type' | 'uri'>,  request: Request): GetCustomFieldsForWorkspace200Response | Promise<GetCustomFieldsForWorkspace200Response> | Observable<GetCustomFieldsForWorkspace200Response>;
+
+
+  abstract insertEnumOptionForCustomField(customFieldGid: string, optPretty: boolean, optFields: Array<'color' | 'enabled' | 'name'>, insertEnumOptionForCustomFieldRequest: InsertEnumOptionForCustomFieldRequest,  request: Request): CreateEnumOptionForCustomField201Response | Promise<CreateEnumOptionForCustomField201Response> | Observable<CreateEnumOptionForCustomField201Response>;
+
+
+  abstract updateCustomField(customFieldGid: string, optPretty: boolean, optFields: Array<'asana_created_field' | 'created_by' | 'created_by.name' | 'currency_code' | 'custom_label' | 'custom_label_position' | 'date_value' | 'date_value.date' | 'date_value.date_time' | 'default_access_level' | 'description' | 'display_value' | 'enabled' | 'enum_options' | 'enum_options.color' | 'enum_options.enabled' | 'enum_options.name' | 'enum_value' | 'enum_value.color' | 'enum_value.enabled' | 'enum_value.name' | 'format' | 'has_notifications_enabled' | 'id_prefix' | 'input_restrictions' | 'is_formula_field' | 'is_global_to_workspace' | 'is_value_read_only' | 'multi_enum_values' | 'multi_enum_values.color' | 'multi_enum_values.enabled' | 'multi_enum_values.name' | 'name' | 'number_value' | 'people_value' | 'people_value.name' | 'precision' | 'privacy_setting' | 'reference_value' | 'reference_value.name' | 'representation_type' | 'resource_subtype' | 'text_value' | 'type'>, updateCustomFieldRequest: UpdateCustomFieldRequest,  request: Request): CreateCustomField201Response | Promise<CreateCustomField201Response> | Observable<CreateCustomField201Response>;
+
+
+  abstract updateEnumOption(enumOptionGid: string, optPretty: boolean, optFields: Array<'color' | 'enabled' | 'name'>, updateEnumOptionRequest: UpdateEnumOptionRequest,  request: Request): CreateEnumOptionForCustomField201Response | Promise<CreateEnumOptionForCustomField201Response> | Observable<CreateEnumOptionForCustomField201Response>;
+
+} 
