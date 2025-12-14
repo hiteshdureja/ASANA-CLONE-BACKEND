@@ -2198,19 +2198,10 @@ Through building this project, I learned:
 - How to verify database schemas match entity definitions
 - How to think about scalability and production readiness
 
-## 📝 License
-
-I built this project for educational and portfolio purposes. Asana is a trademark of Asana, Inc.
-
-## 🙏 Acknowledgments
-
-- **Asana** for providing the comprehensive OpenAPI specification
-- **Cursor AI** for invaluable assistance throughout development - I indexed the OpenAPI YAML and API docs, which helped me understand the complex specification and implement everything correctly
-- **NestJS** and **TypeORM** communities for excellent documentation
 
 ## 📧 Contact
 
-For questions or contributions, please open an issue or submit a pull request.
+You can reach me at +91-8527281066 or hiteshdureja03@gmail.com
 
 ---
 
