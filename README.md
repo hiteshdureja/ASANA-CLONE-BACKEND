@@ -763,33 +763,78 @@ npm run test -- schema-verification.spec.ts
 - [x] Default values set correctly
 - [x] API Parity Scripts (Reset DB, Seed, Compare)
 
-## ⚖️ API Parity & Verification
+## ⚖️ API Parity & Verification Tooling
 
-I built a robust tooling suite to ensure this clone behaves exactly like the real Asana API.
+To ensure this clone behaves **exactly** like the real Asana API, I built a sophisticated verification suite located in `scripts/compare-asana-api.ts`.
 
-### 🔄 Comparison Script
-The `compare-asana-api.ts` script automates the verification process:
-1. **Authenticates** with Asana using a PAT.
-2. **Dynamically fetches** your real Workspace GID and User GID.
-3. **Calls both APIs** (Real Asana & Local Clone) for core endpoints.
-4. **Compares Status Codes**: Enforces strict parity (e.g., both must return 400 for missing params).
-5. **Compares Payload Structure**: Validates JSON keys and types.
-6. **Auto-Fixes Models**: Generates TypeScript interfaces from real Asana responses.
+### 🔄 What This Script Does
 
-**Run the verification:**
+The script (`npm run compare:asana`) acts as an automated "Parity Engine" that:
+
+1.  **Auto-Configuration**:
+    *   Authenticates with Asana using your `ASANA_PAT` from `.env`.
+    *   **Dynamic GID Fetching**: Automatically queries the Asana API to find your *real* Workspace GID and User GID.
+    *   Injects these real GIDs into test scenarios so they work against your specific Asana account.
+
+2.  **Scenario Runner**:
+    *   Executes a predefined list of "Scenarios" (e.g., "Get Tasks Happy Path", "Get Project Invalid ID").
+    *   Sends requests **simultaneously** to the Real Asana API and your Local Clone.
+
+3.  **Strict Comparison**:
+    *   **Status Codes**: Verifies that successful requests match (200 vs 200) and errors match (e.g., missing params must return 400, not 500).
+    *   **Payload Structure**: Deeply compares the JSON response keys and types.
+    *   **Edge Cases**: Validates handling of specific query params (e.g., `limit`, `offset`) and malformed requests.
+
+4.  **Auto-Healing (Auto-Fix Mode)**:
+    *   If the local response structure differs from Asana, the script **automatically generates TypeScript interfaces** based on the *actual* Asana response.
+    *   These "Fixed Models" are saved to `src/generated/fixed-models/`, ready for you to copy-paste into your implementation.
+
+### 🧠 Coverage Strategy: Manual API Auditing
+To ensure no edge case is left behind, I am employing a systematic **Documentation-to-Code Audit**:
+> "So, what I am doing for covering all the edge cases is, basically, I am going through the API document one by one."
+
+For every endpoint in the Asana documentation, I:
+1.  **Identify Constraints**: Look for required parameters, mutually exclusive fields (e.g., `workspace` + `assignee`), and valid input ranges.
+2.  **Create "Negative" Scenarios**: Add test cases to `compare-asana-api.ts` that deliberately violate these constraints (e.g., `limit=-1`, missing `workspace`).
+3.  **Verify Parity**: Run the script to confirm my Local Clone returns the exact same error code (400, 404, etc.) as the Real Asana API.
+
+### 🚀 How to Run It
+
+#### 1. Setup Environment
+Ensure your `.env` file has your Asana Personal Access Token (PAT):
+```bash
+ASANA_PAT=1/12345/67890:...
+```
+
+#### 2. Seed Local Database
+The verification tests require your local database to have data matching the GIDs found in Asana. Use the helper scripts to set this up:
+
+```bash
+# 1. Reset Database (Clean Slate)
+npx ts-node -r tsconfig-paths/register scripts/reset-db.ts
+
+# 2. Seed Workspace & User
+# This creates a workspace and user in your local DB with proper GIDs
+npx ts-node -r tsconfig-paths/register scripts/seed-workspace.ts
+```
+
+#### 3. Run Comparison
+Start your server in one terminal:
+```bash
+npm run start
+```
+
+Run the comparison script in another:
 ```bash
 npm run compare:asana
 ```
 
-### 🛠️ Helper Scripts
-- **Reset Database**: Drops and recreates the schema to fix corruption or clean state.
-  ```bash
-  npx ts-node -r tsconfig-paths/register scripts/reset-db.ts
-  ```
-- **Seed Workspace**: Populates the DB with the workspace and user required for comparison tests.
-  ```bash
-  npx ts-node -r tsconfig-paths/register scripts/seed-workspace.ts
-  ```
+### 📊 Reports & Artifacts
+After running, the script generates:
+*   `structure-report.json`: A detailed JSON report of every endpoint mismatch.
+*   `src/generated/fixed-models/*.ts`: TypeScript types generated from real Asana responses for fixing discrepancies.
+*   `src/missing-implementations/*.ts`: Stubs for any endpoints that failed completely.
+*   `__tests__/asana-clone/*.test.ts`: Jest test files generated for each scenario.
 
 ## 🚀 Getting Started
 
