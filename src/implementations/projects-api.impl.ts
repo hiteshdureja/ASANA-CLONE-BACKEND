@@ -77,7 +77,7 @@ export class ProjectsApiImpl extends ProjectsApi {
     }
 
     const followerGids = (addFollowersForProjectRequest?.data as any)?.followers || [];
-    
+
     if (!Array.isArray(followerGids) || followerGids.length === 0) {
       throw new BadRequestException('followers must be a non-empty array');
     }
@@ -350,6 +350,7 @@ export class ProjectsApiImpl extends ProjectsApi {
     optFields: any[],
     request: Request,
   ): Promise<CreateProject201Response> {
+    console.log(`DEBUG: call getProject with gid=${projectGid}`);
     const project = await this.projectRepository.findOne({
       where: { gid: projectGid },
       relations: ['workspace', 'team', 'owner', 'members', 'followers', 'completedBy', 'statuses'],
@@ -753,7 +754,7 @@ export class ProjectsApiImpl extends ProjectsApi {
     if (updateData.privacy_setting !== undefined) project.privacySetting = updateData.privacy_setting;
     if (updateData.public !== undefined) project.public = updateData.public;
     if (updateData.default_access_level !== undefined) project.defaultAccessLevel = updateData.default_access_level;
-    
+
     // Handle completion (if present in request data)
     const requestData = updateProjectRequest.data as any;
     if (requestData?.completed !== undefined) {

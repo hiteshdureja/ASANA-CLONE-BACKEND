@@ -1,0 +1,199 @@
+[
+  {
+    "endpointKey": "[Get Workspaces (Happy Path)] GET /workspaces",
+    "method": "get",
+    "path": "/workspaces",
+    "success": true,
+    "differences": [],
+    "structureFixed": false,
+    "asanaStatus": 200,
+    "localStatus": 200,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Workspace (Happy Path)] GET /workspaces/{workspace_gid}",
+    "method": "get",
+    "path": "/workspaces/{workspace_gid}",
+    "success": true,
+    "differences": [],
+    "structureFixed": false,
+    "asanaStatus": 200,
+    "localStatus": 200,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Workspace (Invalid ID)] GET /workspaces/11111",
+    "method": "get",
+    "path": "/workspaces/11111",
+    "success": false,
+    "differences": [
+      {
+        "path": "errors.[].help",
+        "message": "Missing key in local response"
+      }
+    ],
+    "structureFixed": true,
+    "asanaStatus": 404,
+    "localStatus": 404,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Users (Happy Path)] GET /users",
+    "method": "get",
+    "path": "/users",
+    "success": true,
+    "differences": [],
+    "structureFixed": false,
+    "asanaStatus": 200,
+    "localStatus": 200,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Me (Happy Path)] GET /users/me",
+    "method": "get",
+    "path": "/users/me",
+    "success": true,
+    "differences": [],
+    "structureFixed": false,
+    "asanaStatus": 200,
+    "localStatus": 200,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get User (Invalid ID)] GET /users/11111",
+    "method": "get",
+    "path": "/users/11111",
+    "success": true,
+    "asanaStatus": 500,
+    "localStatus": 404
+  },
+  {
+    "endpointKey": "[Get Teams (Happy Path)] GET /teams",
+    "method": "get",
+    "path": "/teams",
+    "success": true,
+    "differences": [],
+    "structureFixed": false,
+    "asanaStatus": 200,
+    "localStatus": 200,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Projects (Happy Path)] GET /projects",
+    "method": "get",
+    "path": "/projects",
+    "success": false,
+    "differences": [
+      {
+        "path": "next_page",
+        "message": "Null mismatch: local=null, asana=[object Object]"
+      }
+    ],
+    "structureFixed": true,
+    "asanaStatus": 200,
+    "localStatus": 200,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Projects (Missing Workspace)] GET /projects",
+    "method": "get",
+    "path": "/projects",
+    "success": true,
+    "differences": [],
+    "structureFixed": false,
+    "asanaStatus": 200,
+    "localStatus": 200,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Project (Invalid ID)] GET /projects/11111",
+    "method": "get",
+    "path": "/projects/11111",
+    "success": false,
+    "differences": [
+      {
+        "path": "errors.[].help",
+        "message": "Missing key in local response"
+      }
+    ],
+    "structureFixed": true,
+    "asanaStatus": 404,
+    "localStatus": 404,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Tasks (Happy Path)] GET /tasks",
+    "method": "get",
+    "path": "/tasks",
+    "success": false,
+    "differences": [
+      {
+        "path": "next_page",
+        "message": "Null mismatch: local=null, asana=[object Object]"
+      }
+    ],
+    "structureFixed": true,
+    "asanaStatus": 200,
+    "localStatus": 200,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Tasks (Missing Params)] GET /tasks",
+    "method": "get",
+    "path": "/tasks",
+    "success": false,
+    "differences": [
+      {
+        "path": "errors.[].help",
+        "message": "Missing key in local response"
+      }
+    ],
+    "structureFixed": true,
+    "asanaStatus": 400,
+    "localStatus": 400,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Task (Invalid ID)] GET /tasks/11111",
+    "method": "get",
+    "path": "/tasks/11111",
+    "success": false,
+    "differences": [
+      {
+        "path": "errors.[].help",
+        "message": "Missing key in local response"
+      }
+    ],
+    "structureFixed": true,
+    "asanaStatus": 404,
+    "localStatus": 404,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Workspaces (Limit -1)] GET /workspaces",
+    "method": "get",
+    "path": "/workspaces",
+    "success": true,
+    "asanaStatus": 400,
+    "localStatus": 500
+  },
+  {
+    "endpointKey": "[Get Users (Limit 0)] GET /users",
+    "method": "get",
+    "path": "/users",
+    "success": true,
+    "differences": [],
+    "structureFixed": false,
+    "asanaStatus": 200,
+    "localStatus": 200,
+    "reason": ""
+  },
+  {
+    "endpointKey": "[Get Projects (Invalid Offset)] GET /projects",
+    "method": "get",
+    "path": "/projects",
+    "success": true,
+    "asanaStatus": 400,
+    "localStatus": 500
+  }
+]

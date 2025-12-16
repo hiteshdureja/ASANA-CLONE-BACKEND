@@ -24,7 +24,7 @@ export class TaskService {
     private tagRepository: Repository<Tag>,
     @InjectRepository(Section)
     private sectionRepository: Repository<Section>,
-  ) {}
+  ) { }
 
   async findOneByGid(gid: string, relations: string[] = []): Promise<Task> {
     const task = await this.taskRepository.findOne({
@@ -87,23 +87,25 @@ export class TaskService {
     const query = this.taskRepository.createQueryBuilder('task');
 
     if (filters.assignee) {
-      query.andWhere('task.assignee.gid = :assignee', { assignee: filters.assignee });
       query.leftJoinAndSelect('task.assignee', 'assignee');
+      query.andWhere('assignee.gid = :assignee', { assignee: filters.assignee });
     }
 
     if (filters.project) {
-      query.innerJoin('task.projects', 'project', 'project.gid = :projectGid', { projectGid: filters.project });
-      query.leftJoinAndSelect('task.projects', 'projects');
+      // Use innerJoinAndSelect to filter AND select in one go, avoiding duplicate joins
+      query.innerJoinAndSelect('task.projects', 'projects', 'projects.gid = :projectGid', { projectGid: filters.project });
+    } else {
+      // If not filtering by project, we might still want to join generic projects? 
+      // Start of logic suggests specific conditional joins.
     }
 
     if (filters.section) {
-      query.innerJoin('task.sections', 'section', 'section.gid = :sectionGid', { sectionGid: filters.section });
-      query.leftJoinAndSelect('task.sections', 'sections');
+      query.innerJoinAndSelect('task.sections', 'sections', 'sections.gid = :sectionGid', { sectionGid: filters.section });
     }
 
     if (filters.workspace) {
-      query.andWhere('task.workspace.gid = :workspace', { workspace: filters.workspace });
       query.leftJoinAndSelect('task.workspace', 'workspace');
+      query.andWhere('workspace.gid = :workspace', { workspace: filters.workspace });
     }
 
     if (filters.completedSince) {

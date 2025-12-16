@@ -29,6 +29,7 @@ import {
 } from './entities';
 import { ProjectService } from './services/project.service';
 import { TaskService } from './services/task.service';
+import { TeamsProxyController } from './teams-proxy.controller';
 
 @Module({
   imports: [
@@ -45,13 +46,14 @@ import { TaskService } from './services/task.service';
         database: config.get<string>('DB_NAME'),
         entities: [User, Workspace, Team, Project, Task, Section, Tag, ProjectStatus, Story, StatusUpdate, Attachment, Webhook, CustomField, EnumOption, Membership, ProjectMembership, TeamMembership, WorkspaceMembership, Job, ProjectBrief, UserTaskList, Reaction],
         autoLoadEntities: true,
-        synchronize: true,
+        synchronize: config.get<string>('TYPEORM_SYNCHRONIZE') === 'false' ? false : true,
       }),
     }),
     TypeOrmModule.forFeature([User, Workspace, Team, Project, Task, Section, Tag, ProjectStatus, Story, StatusUpdate, Attachment, Webhook, CustomField, EnumOption, Membership, ProjectMembership, TeamMembership, WorkspaceMembership, Job, ProjectBrief, UserTaskList, Reaction]),
 
     ApiModule.forRoot(ApiImplementations),
   ],
+  controllers: [TeamsProxyController],
   providers: [ProjectService, TaskService],
 })
 export class AppModule { }

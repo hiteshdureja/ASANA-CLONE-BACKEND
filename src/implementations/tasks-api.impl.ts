@@ -185,7 +185,7 @@ export class TasksApiImpl extends TasksApi {
   ): Promise<CreateTask201Response> {
     const parentTask = await this.taskService.findOneByGid(taskGid);
     const taskData = TaskMapper.fromRequest(createTaskRequest.data || {});
-    
+
     if (!taskData.name) {
       throw new BadRequestException('Task name is required');
     }
@@ -214,7 +214,7 @@ export class TasksApiImpl extends TasksApi {
     request: Request,
   ): Promise<CreateTask201Response> {
     const taskData = TaskMapper.fromRequest(createTaskRequest.data || {});
-    
+
     if (!taskData.name) {
       throw new BadRequestException('Task name is required');
     }
@@ -245,8 +245,8 @@ export class TasksApiImpl extends TasksApi {
     if (!taskData.createdBy && taskData.assignee) {
       taskData.createdBy = taskData.assignee;
     } else if (createTaskRequest.data?.created_by) {
-      const createdByGid = typeof createTaskRequest.data.created_by === 'string' 
-        ? createTaskRequest.data.created_by 
+      const createdByGid = typeof createTaskRequest.data.created_by === 'string'
+        ? createTaskRequest.data.created_by
         : createTaskRequest.data.created_by?.gid;
       if (createdByGid) {
         const createdBy = await this.userRepository.findOne({
@@ -460,6 +460,17 @@ export class TasksApiImpl extends TasksApi {
     optFields: any[],
     request: Request,
   ): Promise<GetTasks200Response> {
+    if (!assignee && !project && !section && !workspace && !completedSince && !modifiedSince && !(request as any).query['user_task_list']) {
+      throw new BadRequestException('At least one filter (workspace, project, section, assignee, user_task_list, etc.) is required.');
+    }
+
+    // Asana STRICT requires assignee if workspace is provided as the ONLY other filter (roughly)
+    // Actually Asana says: "You must specify one of 'project', 'tag', 'section', 'user_task_list', or 'assignee' + 'workspace'."
+    // So if I have workspace, I MUST have one of the others.
+    if (workspace && !assignee && !project && !section && !(request as any).query['tag'] && !(request as any).query['user_task_list']) {
+      throw new BadRequestException('If workspace is provided, you must also specify assignee, project, tag, section, or user_task_list.');
+    }
+
     const [tasks, total] = await this.taskService.findAll({
       assignee,
       project,

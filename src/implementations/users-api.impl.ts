@@ -56,10 +56,16 @@ export class UsersApiImpl extends UsersApi {
     optFields: any[],
     request: Request,
   ): Promise<GetUser200Response> {
-    const user = await this.userRepository.findOne({
-      where: { gid: userGid },
-      relations: ['workspaces'],
-    });
+    let user: User | null = null;
+    if (userGid === 'me') {
+      const users = await this.userRepository.find({ take: 1, relations: ['workspaces'] });
+      user = users[0] || null;
+    } else {
+      user = await this.userRepository.findOne({
+        where: { gid: userGid },
+        relations: ['workspaces'],
+      });
+    }
 
     if (!user) {
       throw new NotFoundException(`User with gid ${userGid} not found`);

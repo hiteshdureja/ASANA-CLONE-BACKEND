@@ -761,6 +761,35 @@ npm run test -- schema-verification.spec.ts
 - [x] Indexes on primary keys and foreign keys
 - [x] Nullable fields match entity definitions
 - [x] Default values set correctly
+- [x] API Parity Scripts (Reset DB, Seed, Compare)
+
+## ⚖️ API Parity & Verification
+
+I built a robust tooling suite to ensure this clone behaves exactly like the real Asana API.
+
+### 🔄 Comparison Script
+The `compare-asana-api.ts` script automates the verification process:
+1. **Authenticates** with Asana using a PAT.
+2. **Dynamically fetches** your real Workspace GID and User GID.
+3. **Calls both APIs** (Real Asana & Local Clone) for core endpoints.
+4. **Compares Status Codes**: Enforces strict parity (e.g., both must return 400 for missing params).
+5. **Compares Payload Structure**: Validates JSON keys and types.
+6. **Auto-Fixes Models**: Generates TypeScript interfaces from real Asana responses.
+
+**Run the verification:**
+```bash
+npm run compare:asana
+```
+
+### 🛠️ Helper Scripts
+- **Reset Database**: Drops and recreates the schema to fix corruption or clean state.
+  ```bash
+  npx ts-node -r tsconfig-paths/register scripts/reset-db.ts
+  ```
+- **Seed Workspace**: Populates the DB with the workspace and user required for comparison tests.
+  ```bash
+  npx ts-node -r tsconfig-paths/register scripts/seed-workspace.ts
+  ```
 
 ## 🚀 Getting Started
 
