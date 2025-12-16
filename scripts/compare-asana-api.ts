@@ -20,7 +20,13 @@ import chalk from 'chalk';
 
 // --- CONFIGURATION ---
 
-const ASANA_PAT = '2/1212421894209865/1212434616090815:70160f9dcb2eaa4f7bc5ee7a78a2f245';
+require('dotenv').config();
+const ASANA_PAT = process.env.ASANA_PAT;
+
+if (!ASANA_PAT) {
+  console.error(chalk.red('Error: ASANA_PAT is missing in .env file.'));
+  process.exit(1);
+}
 
 const ASANA_BASE_URL = 'https://app.asana.com/api/1.0';
 const LOCAL_BASE_URL = process.env.LOCAL_API_BASE_URL || 'http://127.0.0.1:3000';
